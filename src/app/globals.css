@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@300;400;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 248 250 252;
+    --foreground: 30 41 59;
+  }
+  .dark {
+    --background: 15 23 42;
+    --foreground: 226 232 240;
+  }
+}
+
+body {
+  @apply bg-surface-50 text-surface-950 antialiased;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.dark body {
+  @apply bg-slate-950 text-slate-100;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.book-card {
+  @apply transition-all duration-300 ease-out;
+}
+.book-card:hover {
+  @apply -translate-y-1 shadow-xl;
+}
+
+.glass {
+  @apply bg-white/80 backdrop-blur-md;
+}
+.dark .glass {
+  @apply bg-slate-900/80 backdrop-blur-md;
+}
+
+.gradient-primary {
+  background: linear-gradient(135deg, #3b6cf7 0%, #2549eb 50%, #1d35d8 100%);
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, #dc882c 0%, #ce6e21 100%);
+}
+
+.gradient-hero {
+  background: linear-gradient(135deg, #161c54 0%, #1e2db0 50%, #3b6cf7 100%);
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, #3b6cf7, #dc882c);
+}
+
+.reader-content {
+  @apply prose prose-lg max-w-none;
+  font-family: 'Merriweather', Georgia, serif;
+}
+
+.reader-content.dark {
+  @apply prose-invert;
+}
+
+input[type="range"] {
+  @apply w-full h-2 bg-surface-200 rounded-lg appearance-none cursor-pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  @apply appearance-none w-4 h-4 bg-primary-500 rounded-full cursor-pointer;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  @apply bg-surface-200 rounded;
+  background: linear-gradient(90deg, #e4e7ef 25%, #f0f2f7 50%, #e4e7ef 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.star-rating {
+  @apply flex items-center gap-0.5;
+}
