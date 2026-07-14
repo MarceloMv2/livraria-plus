@@ -513,7 +513,7 @@ const books = [
 ];
 
 async function main() {
-  console.log('🗑️  Limpando banco de dados...');
+  console.log('🗑️  Limpando dados de usuários...');
   await prisma.readStats.deleteMany();
   await prisma.download.deleteMany();
   await prisma.notification.deleteMany();
@@ -522,20 +522,30 @@ async function main() {
   await prisma.readingProgress.deleteMany();
   await prisma.readingList.deleteMany();
   await prisma.subscription.deleteMany();
-  await prisma.book.deleteMany();
-  await prisma.category.deleteMany();
   await prisma.session.deleteMany();
   await prisma.account.deleteMany();
   await prisma.user.deleteMany();
 
-  console.log('📁 Criando categorias...');
-  for (const cat of categories) {
-    await prisma.category.create({ data: cat });
+  console.log('📁 Verificando categorias...');
+  const existingCategories = await prisma.category.count();
+  if (existingCategories === 0) {
+    for (const cat of categories) {
+      await prisma.category.create({ data: cat });
+    }
+    console.log(`   Criadas ${categories.length} categorias`);
+  } else {
+    console.log(`   ${existingCategories} categorias já existem`);
   }
 
-  console.log('📚 Criando livros...');
-  for (const book of books) {
-    await prisma.book.create({ data: book });
+  console.log('📚 Verificando livros...');
+  const existingBooks = await prisma.book.count();
+  if (existingBooks === 0) {
+    for (const book of books) {
+      await prisma.book.create({ data: book });
+    }
+    console.log(`   Criados ${books.length} livros de exemplo`);
+  } else {
+    console.log(`   ${existingBooks} livros já existem`);
   }
 
   console.log('👤 Criando usuário admin...');
