@@ -32,7 +32,7 @@ export default async function BookDetailPage({ params }: Props) {
 
   const reviews = await prisma.review.findMany({
     where: { bookId: book.id },
-    include: { user: true },
+    include: { user: { select: { id: true, name: true, image: true } } },
     orderBy: { createdAt: 'desc' },
     take: 10,
   });

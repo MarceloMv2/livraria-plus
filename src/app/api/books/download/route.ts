@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
       where: { userId },
     });
 
-    if (!subscription || subscription.status !== 'active') {
+    if (!subscription || subscription.status !== 'active' || (subscription.currentPeriodEnd && subscription.currentPeriodEnd < new Date())) {
       return NextResponse.json(
         { error: 'Assinatura ativa necessária para download' },
         { status: 403 }

@@ -1,17 +1,21 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+const SESSION_COOKIES = [
+  'authjs.session-token',
+  '__Secure-authjs.session-token',
+  'next-auth.session-token',
+  '__Secure-next-auth.session-token',
+];
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Protected routes that require authentication
   const protectedRoutes = ['/perfil', '/minha-biblioteca', '/notificacoes', '/admin'];
   const isProtected = protectedRoutes.some((route) => pathname.startsWith(route));
 
   if (isProtected) {
-    // Check for session cookie
-    const sessionCookie = request.cookies.get('next-auth.session-token') ||
-                          request.cookies.get('__Secure-next-auth.session-token');
+    const sessionCookie = SESSION_COOKIES.find((name) => request.cookies.get(name));
 
     if (!sessionCookie) {
       const loginUrl = new URL('/auth/login', request.url);
