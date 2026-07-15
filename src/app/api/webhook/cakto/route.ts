@@ -32,7 +32,13 @@ interface CaktoData {
   offer: CaktoOffer;
   offer_type?: string;
   subscription_id?: string;
+  subscription_period?: number;
   next_charge_at?: string;
+  subscription?: {
+    id?: string;
+    status?: string;
+    next_charge_at?: string;
+  };
 }
 
 interface CaktoWebhookBody {
@@ -41,13 +47,21 @@ interface CaktoWebhookBody {
   data: CaktoData;
 }
 
-function getPlanFromPrice(price: number): string {
+function getPlanFromProduct(data: CaktoData): string {
+  const name = (data.product?.name || '').toLowerCase();
+  if (name.includes('vital') || name.includes('lifetime')) return 'lifetime';
+  if (name.includes('anual') || name.includes('annual')) return 'annual';
+
+  const price = data.offer?.price || data.product?.price || 0;
   if (price >= 300) return 'lifetime';
-  if (price >= 200) return 'annual';
+  if (price >= 100) return 'annual';
   return 'monthly';
 }
 
-function getPeriodEnd(plan: string): Date {
+function getPeriodEnd(plan: string, nextChargeAt?: string): Date {
+  if (nextChargeAt) {
+    return new Date(nextChargeAt);
+  }
   const now = new Date();
   if (plan === 'monthly') {
     now.setMonth(now.getMonth() + 1);
@@ -74,7 +88,8 @@ export async function POST(request: NextRequest) {
     }
 
     const email = data.customer.email.toLowerCase().trim();
-    const plan = getPlanFromPrice(data.offer?.price || data.product?.price || 0);
+    const plan = getPlanFromProduct(data);
+    const nextChargeAt = data.subscription?.next_charge_at || data.next_charge_at;
 
     let user = await prisma.user.findUnique({ where: { email } });
 
@@ -93,7 +108,7 @@ export async function POST(request: NextRequest) {
       case 'purchase_approved':
       case 'subscription_created':
       case 'subscription_renewed': {
-        const periodEnd = getPeriodEnd(plan);
+        const periodEnd = getPeriodEnd(plan, nextChargeAt);
         await prisma.subscription.upsert({
           where: { userId: user.id },
           create: {
