@@ -178,7 +178,7 @@ export default async function HomePage() {
                   <TrendingUp className="h-5 w-5 text-primary-500" />
                   <h2 className="text-2xl font-bold text-surface-900">Mais Lidos</h2>
                 </div>
-                <p className="text-surface-500">Os bestsellers que todos estão lendo</p>
+                <p className="text-surface-500">Os livros mais lidos pelos nossos leitores</p>
               </div>
               <Link
                 href="/catalogo?bestseller=true"

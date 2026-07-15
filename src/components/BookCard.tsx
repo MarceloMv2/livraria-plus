@@ -65,11 +65,7 @@ export function BookCard({ book, size = 'md', showProgress, progress }: BookCard
                 NOVO
               </span>
             )}
-            {book.isBestseller && (
-              <span className="rounded-full bg-primary-500 px-2 py-0.5 text-[10px] font-bold text-white shadow-lg">
-                BESTSELLER
-              </span>
-            )}
+
           </div>
 
           {/* Quick Actions */}
