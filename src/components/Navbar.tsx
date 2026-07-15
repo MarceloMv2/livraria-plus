@@ -37,7 +37,7 @@ export function Navbar() {
             <div className="flex h-9 w-9 items-center justify-center rounded-xl gradient-primary text-white">
               <BookOpen className="h-5 w-5" />
             </div>
-            <span className="text-xl font-bold text-surface-900 hidden sm:block">
+            <span className="text-lg sm:text-xl font-bold text-surface-900">
               Livraria<span className="text-primary-500">Plus</span>
             </span>
           </Link>
