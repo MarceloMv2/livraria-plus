@@ -13,6 +13,11 @@ O site vira app nativo usando **Capacitor** (invólucro que carrega o site já p
 
 ## Requisitos para compilar (faltam na sua máquina)
 
+> **IMPORTANTE — espaço em disco:** o disco interno (onde o Xcode e o Android Studio
+> precisam ser instalados) estava com ~11 GB livres em ago/2026. O Xcode precisa de
+> ~30 GB instalado e o Android Studio + SDK ~10 GB. **Limpe o disco primeiro** antes de
+> instalar (há ~11 GB de caches regeneráveis em `~/Library/Caches` e `~/Library/Application Support`).
+
 | Ferramenta | Onde baixar | Usado para |
 |---|---|---|
 | **Android Studio** (inclui Android SDK + JDK 17) | https://developer.android.com/studio | Build e assinatura do APK/AAB Android |
@@ -20,6 +25,8 @@ O site vira app nativo usando **Capacitor** (invólucro que carrega o site já p
 | **CocoaPods** | `sudo gem install cocoapods` (ou via Homebrew) | Dependências iOS |
 
 > Obs: o Capacitor v7 exige Node ≥ 20 (você tem 20.20.2 via nvm — OK). A versão v8 exigiria Node 22.
+> Obs 2: o projeto já está preparado — quando as ferramentas estiverem instaladas, rode apenas
+> `npx cap sync` e `npx cap open android` / `npx cap open ios`.
 
 ## Passo a passo — Android
 
