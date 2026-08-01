@@ -39,7 +39,7 @@ async function main() {
   let notFound = 0;
 
   for (const b of books) {
-    const filename = getFilename(b.fileUrl);
+    const filename = getFilename(b.fileUrl ?? '');
     if (!filename) { notFound++; continue; }
 
     const coverName = slugify(filename.replace(/\.pdf$/i, ''));

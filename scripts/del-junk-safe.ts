@@ -6,7 +6,7 @@ async function main() {
     select: { id: true, title: true, fileUrl: true },
   });
   console.log('Livros-lixo encontrados:', junk.length);
-  for (const j of junk) console.log(`  🗑️  ${j.title} -> ${j.fileUrl.slice(0, 100)}`);
+  for (const j of junk) console.log(`  🗑️  ${j.title} -> ${j.fileUrl?.slice(0, 100)}`);
   if (junk.length > 0) {
     await prisma.book.deleteMany({ where: { id: { in: junk.map(j => j.id) } } });
     console.log('✅ Deletados com sucesso');

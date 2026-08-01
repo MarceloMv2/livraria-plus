@@ -26,7 +26,7 @@ async function main() {
     select: { id: true, title: true, fileUrl: true, coverImage: true },
   });
   for (const b of books) {
-    const filename = getFilename(b.fileUrl);
+    const filename = getFilename(b.fileUrl ?? '');
     const coverName = slugify(filename.replace(/\.pdf$/i, ''));
     const fileExists = fs.existsSync(path.join(process.cwd(), 'public', 'capas', `${coverName}.jpg`));
     console.log(`SEM CAPA: ${b.title} | file: ${filename} | cover: /capas/${coverName}.jpg`);

@@ -19,7 +19,7 @@ async function main() {
     token = res.IsTruncated ? res.NextContinuationToken : undefined;
   } while (token);
   console.log('Objetos no R2:', names.size);
-  const pdfs = [...names].filter(n => n.endsWith('.pdf'));
+  const pdfs = Array.from(names).filter(n => n.endsWith('.pdf'));
   const junk = pdfs.filter(n => n.includes('/._'));
   console.log('PDFs:', pdfs.length, '| lixo ._:', junk.length);
 }
