@@ -36,34 +36,43 @@ export default function CatalogPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [totalResults, setTotalResults] = useState(0);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
 
-  const fetchBooks = useCallback(async () => {
+  const fetchBooks = useCallback(async (pageToFetch: number, reset: boolean) => {
     setLoading(true);
     const params = new URLSearchParams();
     if (searchQuery) params.set('q', searchQuery);
     if (selectedCategory) params.set('category', selectedCategory);
     if (selectedLanguage) params.set('language', selectedLanguage);
     if (sortBy) params.set('sort', sortBy);
+    params.set('page', String(pageToFetch));
 
     try {
       const res = await fetch(`/api/books?${params.toString()}`);
       const data = await res.json();
-      setBooks(data.books);
+      setBooks((prev) => reset ? data.books : [...prev, ...data.books]);
       setTotalResults(data.total);
+      setHasMore(data.page < data.totalPages);
+      setPage(pageToFetch);
     } catch {
-      setBooks([]);
+      if (reset) setBooks([]);
     } finally {
       setLoading(false);
     }
   }, [searchQuery, selectedCategory, selectedLanguage, sortBy]);
 
   useEffect(() => {
-    fetchBooks();
+    fetchBooks(1, true);
   }, [fetchBooks]);
+
+  const loadMore = () => {
+    fetchBooks(page + 1, false);
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    fetchBooks();
+    fetchBooks(1, true);
   };
 
   const clearFilters = () => {
@@ -262,6 +271,20 @@ export default function CatalogPage() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Load More */}
+      {hasMore && (
+        <div className="mt-10 text-center">
+          <button
+            onClick={loadMore}
+            disabled={loading}
+            className="inline-flex items-center gap-2 rounded-xl border-2 border-primary-300 bg-white px-8 py-3 text-sm font-semibold text-primary-600 transition-all hover:border-primary-500 hover:bg-primary-50 disabled:opacity-50"
+          >
+            <ChevronDown className={`h-4 w-4 ${loading ? 'animate-bounce' : ''}`} />
+            {loading ? 'Carregando...' : 'Carregar mais'}
+          </button>
         </div>
       )}
     </div>
