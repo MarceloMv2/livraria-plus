@@ -43,3 +43,8 @@ Thumbs.db
 *.tsbuildinfo
 next-env.d.ts
 .env*
+
+# capacitor native platforms (regenerados com 'npx cap add')
+/android/
+/ios/
+/app-web/
