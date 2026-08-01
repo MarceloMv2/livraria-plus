@@ -46,12 +46,12 @@ export default function RootLayout({
           t.src=v;s=b.getElementsByTagName(e)[0];
           s.parentNode.insertBefore(t,s)}(window, document,'script',
           'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '1013345138333081');
+          fbq('init', '4420186274725893');
           fbq('track', 'PageView');
         `}} />
         <noscript>
           <img height="1" width="1" style={{display: 'none'}}
-            src="https://www.facebook.com/tr?id=1013345138333081&ev=PageView&noscript=1" />
+            src="https://www.facebook.com/tr?id=4420186274725893&ev=PageView&noscript=1" />
         </noscript>
         <AuthProvider>
           <div className="flex min-h-screen flex-col">
